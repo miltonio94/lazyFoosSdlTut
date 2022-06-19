@@ -1,0 +1,6 @@
+#+title: Readme
+#+author: Milton
+#+description: just asdding this so github will stop telling me to do so
+
+* Readme
+A place for me to keep track of my progress of going through [[https://lazyfoo.net/tutorials/SDL/index.php][LazyFoo' SDL tuturial]].
