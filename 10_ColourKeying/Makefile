@@ -5,7 +5,7 @@
 # @version 0.1
 
 # OBJS specifies which files to compile
-OBJS=main.cpp
+OBJS=main.cpp LTexture.cpp
 
 # CC specifies which compiler
 CC=g++

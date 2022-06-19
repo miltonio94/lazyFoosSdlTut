@@ -1,8 +1,7 @@
+#include "LTexture.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <cstddef>
 #include <cstdio>
 #include <string>
 
@@ -14,7 +13,10 @@ SDL_Texture *loadTexture(std::string path);
 SDL_Window *gWindow = NULL;
 SDL_Surface *gScreenSurface = NULL;
 SDL_Renderer *gRenderer = NULL;
-SDL_Texture *gTexture = NULL;
+// SDL_Texture *gTexture = NULL;
+
+LTexture gFooTexture;
+LTexture gBackgroundTexture;
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -39,21 +41,11 @@ int main(int argc, char *argv[]) {
           }
         }
 
-        SDL_Rect topLeftViewPort = {0, 0, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-        SDL_RenderSetViewport(gRenderer, &topLeftViewPort);
+        SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
+        SDL_RenderClear(gRenderer);
 
-        SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
-
-        SDL_Rect topRightViewPort = {SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2,
-                                     SCREEN_HEIGHT / 2};
-        SDL_RenderSetViewport(gRenderer, &topRightViewPort);
-
-        SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
-
-        SDL_Rect bottomViewPort = {0, SCREEN_HEIGHT / 2, SCREEN_WIDTH,
-                                   SCREEN_HEIGHT / 2};
-        SDL_RenderSetViewport(gRenderer, &bottomViewPort);
-        SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+        gBackgroundTexture.render(0, 0, gRenderer);
+        gFooTexture.render(240, 190, gRenderer);
 
         SDL_RenderPresent(gRenderer);
       }
@@ -118,9 +110,13 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  gTexture = loadTexture("./img/viewport.png");
-  if (gTexture == NULL) {
-    printf("could not load the texture");
+  if (!gFooTexture.loadFromFile("img/foo.png", gRenderer)) {
+    printf("failed to load  Foo texture img");
+    success = false;
+  }
+
+  if (!gBackgroundTexture.loadFromFile("img/background.png", gRenderer)) {
+    printf("failed to load background texture img");
     success = false;
   }
 
@@ -128,13 +124,13 @@ bool loadMedia() {
 }
 
 void close() {
-  SDL_DestroyTexture(gTexture);
-  gTexture = NULL;
+  gFooTexture.freeTexture();
+  gBackgroundTexture.freeTexture();
 
   SDL_DestroyRenderer(gRenderer);
-  gRenderer = NULL;
-
   SDL_DestroyWindow(gWindow);
+
+  gRenderer = NULL;
   gWindow = NULL;
 
   IMG_Quit();
