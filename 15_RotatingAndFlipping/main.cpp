@@ -1,11 +1,6 @@
 #include "LTexture.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_blendmode.h>
-#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_stdinc.h>
-#include <cstdio>
 #include <string>
 
 bool init();
@@ -16,9 +11,7 @@ SDL_Window *gWindow = NULL;
 SDL_Surface *gScreenSurface = NULL;
 SDL_Renderer *gRenderer = NULL;
 
-const int WALKING_ANIMATION_FRAMES = 4;
-SDL_Rect gSpriteClips[WALKING_ANIMATION_FRAMES];
-LTexture gSpriteSheetTexture;
+LTexture gArrowTexture;
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -33,29 +26,46 @@ int main(int argc, char *argv[]) {
     } else {
       bool quit = false;
       SDL_Event e;
-      int frame = 0;
+      double degrees = 0;
+      SDL_RendererFlip flipType = SDL_FLIP_NONE;
 
       while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
           if (e.type == SDL_QUIT) {
             quit = true;
+          } else if (e.type == SDL_KEYDOWN) {
+            switch (e.key.keysym.sym) {
+            case SDLK_a:
+              degrees -= 60;
+              break;
+
+            case SDLK_d:
+              degrees -= 60;
+              break;
+
+            case SDLK_q:
+              flipType = SDL_FLIP_HORIZONTAL;
+              break;
+
+            case SDLK_w:
+              flipType = SDL_FLIP_NONE;
+              break;
+
+            case SDLK_e:
+              flipType = SDL_FLIP_VERTICAL;
+              break;
+            }
           }
         }
 
         SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(gRenderer);
 
-        SDL_Rect *currentClip = &gSpriteClips[frame / 4];
-        gSpriteSheetTexture.render((SCREEN_WIDTH - currentClip->w) / 2,
-                                   (SCREEN_HEIGHT - currentClip->h) / 2,
-                                   gRenderer, currentClip);
+        gArrowTexture.render((SCREEN_WIDTH - gArrowTexture.getWidth()) / 2,
+                             (SCREEN_HEIGHT - gArrowTexture.getHeight()) / 2,
+                             gRenderer, degrees, flipType);
 
         SDL_RenderPresent(gRenderer);
-
-        ++frame;
-        if (frame / 4 >= WALKING_ANIMATION_FRAMES) {
-          frame = 0;
-        }
       }
     }
   }
@@ -101,23 +111,16 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gSpriteSheetTexture.loadFromFile("img/foo.png", gRenderer)) {
-    printf("failed to load foo walking texture img \n");
+  if (!gArrowTexture.loadFromFile("img/arrow.png", gRenderer)) {
+    printf("failed to load arrow texture img \n");
     success = false;
-  } else {
-    for (int i = 0; i < 4; i++) {
-      gSpriteClips[i].x = i * 64;
-      gSpriteClips[i].y = 0;
-      gSpriteClips[i].w = 64;
-      gSpriteClips[i].h = 205;
-    }
   }
 
   return success;
 }
 
 void close() {
-  gSpriteSheetTexture.freeTexture();
+  gArrowTexture.freeTexture();
 
   SDL_DestroyRenderer(gRenderer);
   SDL_DestroyWindow(gWindow);

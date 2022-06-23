@@ -23,7 +23,7 @@ LINKER_FLAGS= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 OBJS_BUILD_PATH=../build/
 
 # OBJS_NAME specifies the name of the executable
-OBJS_NAME=animatedSpritesAndVsync
+OBJS_NAME=RotatingAndFlipping
 
 # target that compiles
 all : $(OBJS)

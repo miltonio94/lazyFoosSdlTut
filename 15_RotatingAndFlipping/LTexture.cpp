@@ -53,6 +53,20 @@ void LTexture::render(int x, int y, SDL_Renderer *renderer, SDL_Rect *clip) {
   SDL_RenderCopy(renderer, mTexture, clip, &renderQuad);
 }
 
+void LTexture::render(int x, int y, SDL_Renderer *renderer, SDL_Rect *clip,
+                      double angle, SDL_Point *center, SDL_RendererFlip flip) {
+  SDL_Rect renderQuad = {x, y, clip->w, clip->h};
+
+  SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
+}
+
+void LTexture::render(int x, int y, SDL_Renderer *renderer, double angle,
+                      SDL_RendererFlip flip) {
+  SDL_Rect renderQuad = {x, y, mWidth, mHeight};
+
+  SDL_RenderCopyEx(renderer, mTexture, NULL, &renderQuad, angle, NULL, flip);
+}
+
 void LTexture::render(int x, int y, SDL_Renderer *renderer) {
   SDL_Rect renderQuad = {x, y, mWidth, mHeight};
 
