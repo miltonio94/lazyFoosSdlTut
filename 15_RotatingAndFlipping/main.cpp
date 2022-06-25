@@ -111,7 +111,7 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gArrowTexture.loadFromFile("img/arrow.png", gRenderer)) {
+  if (!gArrowTexture.loadFromFile("../assets/img/arrow.png", gRenderer)) {
     printf("failed to load arrow texture img \n");
     success = false;
   }

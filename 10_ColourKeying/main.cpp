@@ -110,12 +110,13 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gFooTexture.loadFromFile("img/foo.png", gRenderer)) {
+  if (!gFooTexture.loadFromFile("../assets/img/fooStill.png", gRenderer)) {
     printf("failed to load  Foo texture img");
     success = false;
   }
 
-  if (!gBackgroundTexture.loadFromFile("img/background.png", gRenderer)) {
+  if (!gBackgroundTexture.loadFromFile("../assets/img/background.png",
+                                       gRenderer)) {
     printf("failed to load background texture img");
     success = false;
   }

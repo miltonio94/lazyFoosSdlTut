@@ -101,7 +101,7 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gSpriteSheetTexture.loadFromFile("img/foo.png", gRenderer)) {
+  if (!gSpriteSheetTexture.loadFromFile("../assets/img/foo.png", gRenderer)) {
     printf("failed to load foo walking texture img \n");
     success = false;
   } else {

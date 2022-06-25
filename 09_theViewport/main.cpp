@@ -118,7 +118,7 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  gTexture = loadTexture("./img/viewport.png");
+  gTexture = loadTexture("../assets/img/viewport.png");
   if (gTexture == NULL) {
     printf("could not load the texture");
     success = false;

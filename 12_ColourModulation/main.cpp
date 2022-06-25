@@ -120,7 +120,7 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gModulatedTexture.loadFromFile("img/colors.png", gRenderer)) {
+  if (!gModulatedTexture.loadFromFile("../assets/img/colors.png", gRenderer)) {
     printf("failed to load dots texture img \n");
     success = false;
   }

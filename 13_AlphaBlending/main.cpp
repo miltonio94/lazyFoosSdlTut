@@ -109,14 +109,14 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gModulatedTexture.loadFromFile("img/fadeout.png", gRenderer)) {
+  if (!gModulatedTexture.loadFromFile("../assets/img/fadeout.png", gRenderer)) {
     printf("failed to load front texture img \n");
     success = false;
   } else {
     gModulatedTexture.setBlendMode(SDL_BLENDMODE_BLEND);
   }
 
-  if (!gBackgroundTexture.loadFromFile("img/fadein.png", gRenderer)) {
+  if (!gBackgroundTexture.loadFromFile("../assets/img/fadein.png", gRenderer)) {
     printf("failed to load background texture img \n");
     success = false;
   }

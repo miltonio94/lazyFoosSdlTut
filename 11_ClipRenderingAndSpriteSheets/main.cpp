@@ -116,7 +116,7 @@ bool init() {
 bool loadMedia() {
   bool success = true;
 
-  if (!gSpriteSheetTexture.loadFromFile("img/dots.png", gRenderer)) {
+  if (!gSpriteSheetTexture.loadFromFile("../assets/img/dots.png", gRenderer)) {
     printf("failed to load dots texture img \n");
     success = false;
   } else {
